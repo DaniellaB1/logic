@@ -24,7 +24,7 @@ def formula1b():
     Sprinklers = Atom('Sprinklers')  # whether the sprinklers are on
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
 
 # Sentence: "Either it's day or night (but not both)."
 def formula1c():
@@ -33,7 +33,7 @@ def formula1c():
     Night = Atom('Night') # whether it's night
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
 
 ############################################################
 # Problem 2: first-order logic
@@ -47,7 +47,7 @@ def formula2a():
     # Note: You do NOT have to enforce that the mother is a "person"
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
 
 # Sentence: "At least one person has no children."
 def formula2b():
@@ -58,7 +58,7 @@ def formula2b():
     # Note: You do NOT have to enforce that the child is a "person"
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
 
 # Return a formula which defines Daughter in terms of Female and Child.
 # See parentChild() in examples.py for a relevant example.
@@ -69,7 +69,7 @@ def formula2c():
     def Daughter(x, y): return Atom('Daughter', x, y)  # whether x has a daughter y
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
 
 # Return a formula which defines Grandmother in terms of Female and Parent.
 # Note: It is ok for a person to be her own parent
@@ -80,7 +80,7 @@ def formula2d():
     def Grandmother(x, y): return Atom('Grandmother', x, y)  # whether x has a grandmother y
     # BEGIN_YOUR_CODE (our solution is 5 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+   
 
 ############################################################
 # Problem 3: Liar puzzle
@@ -111,7 +111,7 @@ def liar():
     # You should add 5 formulas, one for each of facts 1-5.
     # BEGIN_YOUR_CODE (our solution is 11 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+   
     query = CrashedServer('$x')
     return (formulas, query)
 
@@ -169,7 +169,7 @@ def createRule1():
         And(Atom(args[0].title(), '$x'), Atom(args[1].title(), '$y')),
         Exists('$z', And(Atom(args[2].title(), '$y'), Atom(args[1].title(), args[0].lower(), '$y')))
         ))))
-    # END_YOUR_CODE
+
 
 def createRule2():
     # Return a GrammarRule for 'there is some $Noun that every $Noun $Verb'
@@ -180,7 +180,7 @@ def createRule2():
             And(Atom(args[1].title(), '$y'), Atom(args[2].title(), '$z')),
             Atom(args[0].title(), '$x')
             )))))
-    # END_YOUR_CODE
+
 
 def createRule3():
     # Return a GrammarRule for 'if a $Noun $Verb a $Noun then the former $Verb the latter'
@@ -189,4 +189,4 @@ def createRule3():
     #     lambda args: 
     #     )
     return
-    # END_YOUR_CODE
+   

@@ -14,7 +14,7 @@ def formula1a():
     Rain = Atom('Rain')                   # whether it's raining
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    
 
 # Sentence: "It's wet if and only if it is raining or the sprinklers are on."
 def formula1b():
@@ -24,7 +24,7 @@ def formula1b():
     Sprinklers = Atom('Sprinklers')  # whether the sprinklers are on
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+  
 
 # Sentence: "Either it's day or night (but not both)."
 def formula1c():
@@ -33,7 +33,7 @@ def formula1c():
     Night = Atom('Night') # whether it's night
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    
 
 ############################################################
 # Problem 2: first-order logic
@@ -47,7 +47,7 @@ def formula2a():
     # Note: You do NOT have to enforce that the mother is a "person"
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    
 
 # Sentence: "At least one person has no children."
 def formula2b():
@@ -58,7 +58,7 @@ def formula2b():
     # Note: You do NOT have to enforce that the child is a "person"
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    
 
 # Return a formula which defines Daughter in terms of Female and Child.
 # See parentChild() in examples.py for a relevant example.
@@ -69,7 +69,7 @@ def formula2c():
     def Daughter(x, y): return Atom('Daughter', x, y)  # whether x has a daughter y
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
 
 # Return a formula which defines Grandmother in terms of Female and Parent.
 # Note: It is ok for a person to be her own parent
@@ -80,7 +80,7 @@ def formula2d():
     def Grandmother(x, y): return Atom('Grandmother', x, y)  # whether x has a grandmother y
     # BEGIN_YOUR_CODE (our solution is 5 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    
 
 ############################################################
 # Problem 3: Liar puzzle
@@ -111,7 +111,7 @@ def liar():
     # You should add 5 formulas, one for each of facts 1-5.
     # BEGIN_YOUR_CODE (our solution is 11 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+
     query = CrashedServer('$x')
     return (formulas, query)
 
@@ -143,50 +143,8 @@ def ints():
     query = None
     # BEGIN_YOUR_CODE (our solution is 23 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    
     query = Forall('$x', Exists('$y', And(Even('$y'), Larger('$y', '$x'))))
     return (formulas, query)
 
-############################################################
-# Problem 6: semantic parsing (extra credit)
-# Each of the following functions should return a GrammarRule.
-# Look at createBaseEnglishGrammar() in nlparser.py to see what these rules should look like.
-# For example, the rule for 'X is a Y' is:
-#     GrammarRule('$Clause', ['$Name', 'is', 'a', '$Noun'],
-#                 lambda args: Atom(args[1].title(), args[0].lower()))
-# Note: args[0] corresponds to $Name and args[1] corresponds to $Noun.
-# Note: by convention, .title() should be applied to all predicates (e.g., Cat).
-# Note: by convention, .lower() should be applied to constant symbols (e.g., garfield).
 
-from nlparser import GrammarRule
-
-def createRule1():
-    # Return a GrammarRule for 'every $Noun $Verb some $Noun'
-    # Note: universal quantification should be outside existential quantification.
-    # BEGIN_YOUR_CODE (our solution is 3 lines of code, but don't worry if you deviate from this)
-    return GrammarRule('$Clause', ['every', '$Noun', '$Verb', 'some', '$Noun'],
-        lambda args: Forall('$x', Forall('$y', Implies(
-        And(Atom(args[0].title(), '$x'), Atom(args[1].title(), '$y')),
-        Exists('$z', And(Atom(args[2].title(), '$y'), Atom(args[1].title(), args[0].lower(), '$y')))
-        ))))
-    # END_YOUR_CODE
-
-def createRule2():
-    # Return a GrammarRule for 'there is some $Noun that every $Noun $Verb'
-    # BEGIN_YOUR_CODE (our solution is 3 lines of code, but don't worry if you deviate from this)
-    return GrammarRule('$Clause', ['there', 'is', 'some', '$Noun', 'that', 'every', '$Noun', '$Verb'],
-        lambda args: Exists('$x',
-            Forall('$y', Forall('$z', Implies(
-            And(Atom(args[1].title(), '$y'), Atom(args[2].title(), '$z')),
-            Atom(args[0].title(), '$x')
-            )))))
-    # END_YOUR_CODE
-
-def createRule3():
-    # Return a GrammarRule for 'if a $Noun $Verb a $Noun then the former $Verb the latter'
-    # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
-    # return GrammarRule('$Clause', ['if', 'a', '$Noun', '$Verb', 'a', '$Noun', 'then', 'the', 'former', '$Verb', 'the', 'latter'],
-    #     lambda args: 
-    #     )
-    return
-    # END_YOUR_CODE

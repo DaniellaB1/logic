@@ -13,6 +13,13 @@ def formula1a():
     California = Atom('California')       # whether we're in California
     Rain = Atom('Rain')                   # whether it's raining
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
+    def formula1a():
+    # Predicates to use:
+                      # whether it's raining
+    
+    # If it's summer and we're in California, then it doesn't rain.
+    return Implies(And(Summer, California), Not(Rain))
+
     raise Exception("Not implemented yet")
     # END_YOUR_CODE
 
@@ -24,7 +31,9 @@ def formula1b():
     Sprinklers = Atom('Sprinklers')  # whether the sprinklers are on
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    # It's wet if and only if it is raining or the sprinklers are on.
+    return Equiv(Wet, Or(Rain, Sprinklers))
+# END_YOUR_CODE
 
 # Sentence: "Either it's day or night (but not both)."
 def formula1c():
@@ -33,7 +42,9 @@ def formula1c():
     Night = Atom('Night') # whether it's night
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    return And(Or(Day, Night), Not(And(Day, Night)))
+ 
+# END_YOUR_CODE
 
 ############################################################
 # Problem 2: first-order logic
@@ -46,8 +57,9 @@ def formula2a():
 
     # Note: You do NOT have to enforce that the mother is a "person"
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
+    
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    return Forall('$x', Implies(Person('$x'), Exists('$y', Mother('$y', '$x'))))# END_YOUR_CODE
 
 # Sentence: "At least one person has no children."
 def formula2b():
@@ -58,7 +70,7 @@ def formula2b():
     # Note: You do NOT have to enforce that the child is a "person"
     # BEGIN_YOUR_CODE (our solution is 1 line of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    return Exists('$x', And(Person('$x'), Not(Exists('$y', Child('$y', '$x')))))# END_YOUR_CODE
 
 # Return a formula which defines Daughter in terms of Female and Child.
 # See parentChild() in examples.py for a relevant example.
@@ -69,7 +81,7 @@ def formula2c():
     def Daughter(x, y): return Atom('Daughter', x, y)  # whether x has a daughter y
     # BEGIN_YOUR_CODE (our solution is 4 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    return Forall('$x', Forall('$y', Equiv(Daughter('$x', '$y'), And(Female('$y'), Child('$x', '$y')))))# END_YOUR_CODE
 
 # Return a formula which defines Grandmother in terms of Female and Parent.
 # Note: It is ok for a person to be her own parent
@@ -80,7 +92,7 @@ def formula2d():
     def Grandmother(x, y): return Atom('Grandmother', x, y)  # whether x has a grandmother y
     # BEGIN_YOUR_CODE (our solution is 5 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
-    # END_YOUR_CODE
+    return Forall('$x', Forall('$y', Equiv(Grandmother('$x', '$y'), Exists('$z', And(Parent('$z', '$x'), Parent('$y', '$z'), Female('$y'))))))# END_YOUR_CODE
 
 ############################################################
 # Problem 3: Liar puzzle
@@ -109,6 +121,24 @@ def liar():
     # We provide the formula for fact 0 here.
     formulas.append(Equiv(TellTruth(john), Not(CrashedServer(john))))
     # You should add 5 formulas, one for each of facts 1-5.
+    
+    # Fact 1: Susan says "It was Nicole!"
+    formulas.append(Equiv(TellTruth(susan), CrashedServer(nicole)))
+    
+    # Fact 2: Mark says "No, it was Susan!"
+    formulas.append(Equiv(TellTruth(mark), CrashedServer(susan)))
+    
+    # Fact 3: Nicole says "Susan's a liar."
+    formulas.append(Equiv(TellTruth(nicole), Not(TellTruth(susan))))
+    
+    # Fact 4: Exactly one person is telling the truth.
+    formulas.append(ExactlyOne([TellTruth(john), TellTruth(susan), TellTruth(nicole), TellTruth(mark)]))
+    
+    # Fact 5: Exactly one person crashed the server.
+    formulas.append(ExactlyOne([CrashedServer(john), CrashedServer(susan), CrashedServer(nicole), CrashedServer(mark)]))
+    
+    query = CrashedServer('$x')
+    return (formulas, query)
     # BEGIN_YOUR_CODE (our solution is 11 lines of code, but don't worry if you deviate from this)
     raise Exception("Not implemented yet")
     # END_YOUR_CODE
@@ -141,8 +171,28 @@ def ints():
     # predicate is used to assert that two objects are the same.
     formulas = []
     query = None
-    # BEGIN_YOUR_CODE (our solution is 23 lines of code, but don't worry if you deviate from this)
+    # 0. Each number $x$ has exactly one successor, which is not equal to $x$.
+    formulas.append(Forall('$x', Exists('$y', And(Successor('$x', '$y'), Not(Equals('$x', '$y'))))))
+    
+    # 1. Each number is either even or odd, but not both.
+    formulas.append(Forall('$x', Or(Even('$x'), Odd('$x'))))
+    formulas.append(Forall('$x', Not(And(Even('$x'), Odd('$x')))))
+    
+    # 2. The successor number of an even number is odd.
+    formulas.append(Forall('$x', Forall('$y', Implies(And(Even('$x'), Successor('$x', '$y')), Odd('$y')))))
+    
+    # 3. The successor number of an odd number is even.
+    formulas.append(Forall('$x', Forall('$y', Implies(And(Odd('$x'), Successor('$x', '$y')), Even('$y')))))
+    
+    # 4. For every number $x$, the successor of $x$ is larger than $x$.
+    formulas.append(Forall('$x', Forall('$y', Implies(Successor('$x', '$y'), Larger('$y', '$x')))))
+    
+    # 5. Larger is a transitive property: if $x$ is larger than $y$ and $y$ is larger than $z$, then $x$ is larger than $z$.
+    formulas.append(Forall('$x', Forall('$y', Forall('$z', Implies(And(Larger('$x', '$y'), Larger('$y', '$z')), Larger('$x', '$z'))))))
+    
     raise Exception("Not implemented yet")
+    # BEGIN_YOUR_CODE (our solution is 23 lines of code, but don't worry if you deviate from this)
+    
     # END_YOUR_CODE
     query = Forall('$x', Exists('$y', And(Even('$y'), Larger('$y', '$x'))))
     return (formulas, query)
